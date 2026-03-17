@@ -1,63 +1,87 @@
 # Catapulse
 
-Catapulse is a founder-facing RevenueCat brief built for the Charts API take-home.
+Catapulse is a founder-facing brief for RevenueCat subscription apps.
 
-Instead of showing a chart-heavy dashboard, Catapulse turns live RevenueCat subscription data into a single dense operating table with:
+It uses live RevenueCat API data to turn a large set of subscription metrics into a single operator-friendly table with four columns:
 
-- the current metric value
-- period-over-period change
-- a short founder-readable interpretation
+- **Metric**
+- **Current**
+- **Change**
+- **Current situation**
 
-The goal is simple: give a subscription app founder a fast answer to **what changed, by how much, and what it means**.
+Instead of asking a founder to interpret a dashboard full of charts, Catapulse tries to answer the more practical question:
+
+> What changed in the business over the last 7, 28, or 90 days, and what does that mean?
+
+## Why this exists
+
+Founders usually do not need more chart surface area. They need a fast weekly operating read.
+
+Catapulse is designed around that workflow:
+
+- open the app
+- switch between **7d / 28d / 90d**
+- scan core subscription metrics
+- understand whether acquisition, conversion, retention, and recurring revenue are improving or weakening
+
+The app opens on the provided **Dark Noise** take-home project by default, but it also supports loading another RevenueCat project key from the UI.
 
 ## What the app does
 
-Catapulse loads a RevenueCat project server-side and renders one founder brief table across three windows:
+Catapulse:
+
+1. resolves a RevenueCat project server-side
+2. fetches live metrics from RevenueCat
+3. normalizes the responses into founder-readable rows
+4. compares the selected window against the previous matching window
+5. renders a minimal table UI
+
+The header also shows:
+
+- **Project ID**
+- **Project Name**
+- **Coverage**
+
+A **Change** button lets you paste another RevenueCat V2 key and load a different project.
+
+## Current product behavior
+
+The app presents a single founder brief table and a range selector:
 
 - **Last 7 days**
 - **Last 28 days**
 - **Last 90 days**
 
-The page opens on the provided **Dark Noise** take-home project by default.
+The selected range changes the calculations in the table rather than just changing a label.
 
-A **Change** action in the header lets you paste another RevenueCat V2 key. Catapulse then:
+### Table columns
 
-1. resolves the project via `GET /projects`
-2. loads the project name and ID
-3. queries the chart endpoints
-4. renders the same founder brief for that project
+#### Metric
+The business metric being analyzed.
 
-## Product thesis
+#### Current
+The current value for the selected range.
 
-Most subscription reporting tools answer one of two questions:
+#### Change
+The period-over-period change versus the previous matching window.
 
-- *What do the charts look like?*
-- *What are the raw KPIs?*
+Examples:
+- `+4.2% vs previous 7d`
+- `-1.3% vs previous 28d`
+- `+9.1% vs previous 90d`
 
-Catapulse is aimed at the question a founder actually asks during a weekly review:
+#### Current situation
+A short sentence interpreting the metric in plain language.
 
-> What changed in the business this week, and is that good or bad?
+## Metrics shown
 
-That is why the UI is intentionally minimal:
-
-- no chart canvases
-- no card wall
-- no extra navigation
-- one table
-- one range selector
-- one current situation sentence per metric
-
-## Metrics currently shown
-
-Catapulse currently renders these founder-facing rows:
+Catapulse currently focuses on founder-relevant subscription signals, including:
 
 - Active subscriptions
 - Active trials
 - Customers active
 - MRR
 - ARR
-- New MRR
-- Resubscription MRR
 - Revenue
 - Transactions
 - New customers
@@ -68,14 +92,18 @@ Catapulse currently renders these founder-facing rows:
 - Trial conversion rate
 - Churn rate
 - Refund rate
+- MRR movement components that are useful in the current brief
 
-### How Catapulse interprets the selected range
+The exact row set can evolve as the brief is tuned, but the goal stays the same: keep only metrics that help a founder understand business momentum.
 
-Not every metric should be treated the same way, so the app uses different rollups depending on metric type.
+## How range calculations work
 
-#### Average-over-window metrics
+Not every metric should be rolled up the same way.
 
-These rows use the **average daily value across the selected window**:
+Catapulse uses a few different strategies depending on metric type.
+
+### Average-over-window metrics
+These rows use the average value across the selected window so that `7d`, `28d`, and `90d` meaningfully differ:
 
 - Active subscriptions
 - Active trials
@@ -83,48 +111,40 @@ These rows use the **average daily value across the selected window**:
 - MRR
 - ARR
 
-This makes the `7d / 28d / 90d` switch meaningful instead of just showing the latest point.
+### Sum-over-window metrics
+These rows sum values across the selected window:
 
-#### Sum-over-window metrics
-
-These rows use the **sum across the selected window**:
-
-- New MRR
-- Resubscription MRR
 - Revenue
 - Transactions
 - New customers
 - Paying customers
 - New trials
 - Trial starts
+- selected MRR movement components
 
-#### Average rate metrics
-
-These rows use the **average rate across the selected window**:
+### Average-rate metrics
+These rows average the rate over the selected window:
 
 - Conversion to paying
 - Trial conversion rate
 - Churn rate
 - Refund rate
-
-### Change column logic
-
-The **Change** column compares the selected window against the immediately previous window of the same size:
-
-- `7d` compares against the previous `7d`
-- `28d` compares against the previous `28d`
-- `90d` compares against the previous `90d`
 
 ## RevenueCat endpoints used
 
-### Project discovery
+Catapulse is powered by live RevenueCat data.
 
-Catapulse uses project discovery so the **Change** flow can resolve project ID and project name from a pasted key:
-
+### Project resolution
 - `GET /projects`
 
-### Chart endpoints used by the founder brief
+Used to resolve project ID and project name from a pasted V2 key.
 
+### Overview metrics
+- `GET /projects/{project_id}/metrics/overview`
+
+Used for top-line metrics where helpful.
+
+### Charts endpoints
 - `GET /projects/{project_id}/charts/actives`
 - `GET /projects/{project_id}/charts/trials`
 - `GET /projects/{project_id}/charts/mrr`
@@ -137,34 +157,15 @@ Catapulse uses project discovery so the **Change** flow can resolve project ID a
 - `GET /projects/{project_id}/charts/trials_new`
 - `GET /projects/{project_id}/charts/trial_conversion_rate`
 - `GET /projects/{project_id}/charts/mrr_movement`
+- `GET /projects/{project_id}/charts/ltv_per_customer`
+- `GET /projects/{project_id}/charts/ltv_per_paying_customer`
 - `GET /projects/{project_id}/charts/refund_rate`
 
-### Resolution overrides
-
-Some endpoints are explicitly requested with daily resolution so they work naturally with `7d / 28d / 90d`:
-
-- `mrr`
-- `arr`
-- `customers_active`
-- `mrr_movement`
-
-## How the app is structured
-
-```text
-apps/catapulse/
-├─ app/
-│  ├─ api/catapulse/route.ts      # server route returning transformed founder brief payload
-│  └─ page.tsx                    # page entrypoint
-├─ components/catapulse/
-│  └─ catapulse-dashboard.tsx     # single-table founder UI
-├─ lib/
-│  └─ catapulse-data.ts           # RevenueCat querying, retries, transforms, metric logic
-└─ README.md
-```
+Some chart requests use explicit daily resolution so they behave naturally with `7d / 28d / 90d`.
 
 ## Local development
 
-From the project root:
+From the root of this repository:
 
 ```bash
 cd apps/catapulse
@@ -172,7 +173,7 @@ npm install
 npm run dev
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:3000
@@ -180,7 +181,7 @@ http://localhost:3000
 
 ## Environment variables
 
-Recommended for any non-local or deployed use:
+For production or non-take-home use, configure these server-side:
 
 ```bash
 REVENUECAT_API_KEY=sk_...
@@ -188,23 +189,19 @@ REVENUECAT_PROJECT_ID=proj_...
 REVENUECAT_PROJECT_NAME=Your App Name
 ```
 
-### Default take-home behavior
+### Default fallback behavior
 
-For the take-home environment, Catapulse can fall back to the provided Dark Noise key and project metadata server-side.
-
-For a real deployment, set environment variables explicitly and do **not** expose keys client-side.
+If those values are not set, Catapulse can fall back to the provided Dark Noise take-home configuration.
 
 ## API route
 
 Catapulse exposes a local server route:
 
 ### `GET /api/catapulse`
-Returns the founder brief payload for the default configured project.
+Returns the transformed founder brief payload for the default configured project.
 
 ### `POST /api/catapulse`
-Accepts a different RevenueCat key.
-
-Example:
+Accepts a request body like:
 
 ```json
 {
@@ -212,48 +209,75 @@ Example:
 }
 ```
 
-The server then resolves the project and returns the transformed brief payload.
+The server resolves the project and returns the same founder brief payload for the newly loaded key.
 
-## Rate limiting and retries
+## Project structure
 
-RevenueCat rate limits chart requests. Catapulse includes server-side protection for this:
+```text
+apps/catapulse/
+├─ app/
+│  ├─ api/catapulse/route.ts
+│  └─ page.tsx
+├─ components/
+│  ├─ catapulse/
+│  │  └─ catapulse-dashboard.tsx
+│  └─ ui/
+├─ lib/
+│  └─ catapulse-data.ts
+├─ package.json
+└─ README.md
+```
 
-- bounded request concurrency
-- retry logic on `429`
-- support for `retry-after` / `backoff_ms`
-- short server-side caching for project metadata
+## Implementation notes
 
-This keeps the brief usable while still working from live API responses.
+### Server-side data loading
+RevenueCat requests run server-side. The client never calls RevenueCat directly.
 
-## Why this is useful for founders
+### Rate-limit protection
+The data layer includes:
 
-Catapulse is not trying to replace a full analytics suite.
+- bounded concurrency
+- retry handling for `429`
+- backoff support using RevenueCat error metadata
+- short-lived caching where appropriate
 
-It is trying to be the fastest way to answer:
+### UI philosophy
+The UI is intentionally minimal:
 
-- Is growth improving or slowing?
-- Are active customers and subscribers moving together?
-- Is MRR quality improving?
-- Is churn or refund pressure getting worse?
-- Is acquisition turning into paying customers efficiently?
+- black background
+- one table
+- no chart canvases
+- no card wall
+- no extra navigation
 
-In practice, that makes Catapulse a better weekly review surface than a generic dashboard full of charts.
+The point is not to replicate a BI tool. The point is to produce a fast founder read.
 
-## Current limitations
+## Why this can be useful to founders
 
-- load time depends on live RevenueCat API response time
-- project switching requires a key that can resolve project access
-- the app is intentionally opinionated and not a general-purpose chart explorer
-- some metric naming and rollup choices are optimized for founder readability, not accounting-style reporting
+Catapulse is meant to help answer practical weekly questions like:
 
-## Next improvements
+- Is recurring revenue improving?
+- Are active customers growing or stalling?
+- Is acquisition turning into payers?
+- Is churn or refund pressure rising?
+- Are trial mechanics improving?
 
-Possible next steps for Catapulse:
+That makes it more useful as a founder brief than a dashboard that requires the user to infer the narrative themselves.
 
-- optional advanced mode for deeper MRR movement details
+## Known limitations
+
+- Load time depends on live RevenueCat API response time.
+- Project switching depends on the permissions available to the pasted V2 key.
+- Some metric naming is optimized for founder readability rather than pure accounting terminology.
+- The brief is intentionally opinionated and not a full analytics workbench.
+
+## Next possible improvements
+
 - segment drill-downs by country, store, product, or offering
-- export to markdown / PDF / Slack summary
-- deploy as a public live demo
+- export to markdown or PDF
+- Slack-ready weekly brief output
+- optional advanced mode for deeper movement analysis
+- cached background refresh for faster production loads
 
 ## Tech stack
 
@@ -262,8 +286,11 @@ Possible next steps for Catapulse:
 - Tailwind CSS
 - RevenueCat API v2
 
-## Summary
+## Repo / deployment
 
-Catapulse is a live RevenueCat founder brief that turns chart data into a cleaner operating table.
+- GitHub: https://github.com/RevCatalyst/catapulse
+- Production: https://catapulse.vercel.app
 
-It is built to show not just **what the metric is**, but **what changed and what it means**.
+---
+
+Catapulse is a practical RevenueCat Charts API product: a founder brief that tells you not just what the metrics are, but what changed and why it matters.

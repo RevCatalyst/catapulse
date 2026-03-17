@@ -183,7 +183,7 @@ export function CatapulseDashboard({ dashboard }: { dashboard: DashboardPayload 
             size="sm"
             variant="outline"
             style={{ borderColor: TABLE_LINE_COLOR }}
-            className="h-7 rounded-none border border-dashed bg-transparent px-3 text-[11px] uppercase tracking-[0.18em] text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
+            className="h-7 cursor-pointer rounded-none border border-dashed bg-transparent px-3 text-[11px] uppercase tracking-[0.18em] text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
             onClick={() => {
               setShowChangeForm((value) => !value);
               setError(null);
@@ -218,7 +218,7 @@ export function CatapulseDashboard({ dashboard }: { dashboard: DashboardPayload 
                 size="sm"
                 variant="outline"
                 style={{ borderColor: TABLE_LINE_COLOR }}
-                className="h-10 min-w-32 rounded-none border border-dashed bg-transparent text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
+                className="h-10 min-w-32 cursor-pointer rounded-none border border-dashed bg-transparent text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
                 disabled={isPending}
               >
                 {isPending ? "Loading..." : "Load project"}
@@ -240,8 +240,8 @@ export function CatapulseDashboard({ dashboard }: { dashboard: DashboardPayload 
               }}
               className={
                 selectedRange === range.key
-                  ? "min-w-32 rounded-none border border-dashed bg-transparent text-current hover:bg-transparent hover:text-current"
-                  : "min-w-32 rounded-none border border-dashed bg-transparent text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
+                  ? "min-w-32 cursor-pointer rounded-none border border-dashed bg-transparent text-current hover:bg-transparent hover:text-current"
+                  : "min-w-32 cursor-pointer rounded-none border border-dashed bg-transparent text-[#c8c8d2] hover:bg-transparent hover:text-[#f0f0f4]"
               }
               onClick={() => setSelectedRange(range.key)}
             >
