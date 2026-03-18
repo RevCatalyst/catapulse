@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -20,7 +19,7 @@ function Section({
       <h2 className="text-2xl font-semibold tracking-tight text-primary sm:text-3xl">
         {title}
       </h2>
-      <div className="space-y-5 text-base leading-8 text-foreground">{children}</div>
+      <div className="space-y-5 text-[18px] leading-8 text-[#b7b7c0]">{children}</div>
     </section>
   );
 }
@@ -119,10 +118,10 @@ export default function LaunchPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
           Launch post
         </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          I built Catapulse because founders do not need another dashboard
+        <h1 className="text-4xl font-semibold tracking-tight text-[#cfcfd8] sm:text-5xl lg:text-6xl">
+          Meet Catapulse: the founder brief for subscription businesses
         </h1>
-        <p className="mx-auto max-w-3xl text-lg leading-8 text-foreground">
+        <p className="mx-auto max-w-3xl text-lg leading-8 text-[#babac3]">
           Catapulse is a founder-facing brief built on top of RevenueCat’s Charts API.
           Instead of giving you a wall of charts, it gives you a single operating table
           that tells you what changed, how much it changed, and why it matters.
@@ -137,18 +136,20 @@ export default function LaunchPage() {
         </div>
       </header>
 
-      <div className="overflow-hidden border border-dashed border-primary/70">
-        <Image
-          src="/launch/catapulse-founder-brief.png"
-          alt="Catapulse founder brief UI showing a single operating table with metric, current, change, and current situation columns"
-          width={2560}
-          height={1599}
+      <div className="overflow-hidden border border-dashed border-primary/70 bg-black">
+        <video
+          controls
+          playsInline
+          preload="metadata"
           className="h-auto w-full"
-          priority
-        />
+          aria-label="Catapulse product demo video"
+        >
+          <source src="/launch/catapulse-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
-      <article className="space-y-12">
+      <article className="space-y-12 [&_code]:font-semibold [&_code]:text-[#d8d8e0] [&_em]:text-[#d4d4dc] [&_strong]:font-semibold [&_strong]:text-[#dddde6]">
         <Section title="The problem Catapulse is solving">
           <p>
             There is a particular kind of disappointment that comes from opening a subscription
@@ -156,12 +157,14 @@ export default function LaunchPage() {
             The filters are there. And yet the answer you actually need is still missing.
           </p>
           <p>
-            Not <em>what are all the metrics?</em> Not <em>what does the curve look like?</em>
-            But: what changed in the business this week, and what should I care about first?
+            Not <em>what are all the metrics?</em>{" "}
+            Not <em>what does the curve look like?</em>{" "}
+            But: <strong>what changed in the business this week, and what matters first?</strong>
           </p>
           <p>
-            That is why I built Catapulse. The goal is not to impress a founder with more
-            analytics UI. The goal is to make a founder faster.
+            That is why Catapulse exists. The goal is not to impress a founder with more
+            analytics UI. The goal is to{" "}
+            <strong>make a founder faster</strong>.
           </p>
         </Section>
 
@@ -174,48 +177,52 @@ export default function LaunchPage() {
           </p>
           <p>
             In that moment, more chart surface area is not always more helpful. Sometimes the
-            best product is the one that removes the burden of interpretation. Catapulse does
-            that by turning live RevenueCat subscription data into a compact founder brief that
-            can be scanned in seconds.
+            best product is the one that{" "}
+            <strong>removes the burden of interpretation</strong>. Catapulse does that by
+            turning live RevenueCat subscription data into a{" "}
+            <strong>compact founder brief that can be scanned in seconds</strong>.
           </p>
         </Section>
 
         <Section title="What you actually get">
           <p>
-            Catapulse presents one operating table with four columns: <strong>Metric</strong>,
-            <strong> Current</strong>, <strong>Change</strong>, and <strong>Current situation</strong>.
-            That means each row gives a founder the raw value, the period-over-period movement,
-            and a plain-language interpretation in the same place.
+            Catapulse presents <strong>one operating table</strong> with four columns:{" "}
+            <strong>Metric, Current, Change, and Current situation.</strong> That means each
+            row gives a founder the raw value, the period-over-period movement, and a
+            plain-language interpretation in the same place.
           </p>
           <p>
-            The current brief focuses on a selective set of founder-relevant subscription
-            metrics, including active subscriptions, active trials, customers active, MRR, ARR,
-            revenue, transactions, new customers, paying customers, conversion to paying, churn,
-            refund rate, and a few recurring revenue movement signals.
+            The current brief focuses on a selective set of{" "}
+            <strong>founder-relevant subscription metrics</strong>, including active
+            subscriptions, active trials, customers active, MRR, ARR, revenue, transactions,
+            new customers, paying customers, conversion to paying, churn, refund rate, and a
+            few recurring revenue movement signals.
           </p>
           <p>
             The app also compares the selected window against the previous matching window. So if
-            you are on <code>28d</code>, you are seeing the current 28-day view versus the
-            previous 28 days. That makes the interface answer not only “what is the metric?” but
-            also “is it improving?” and “how should I interpret that movement?”
+            you are on <code>28d</code>, you are seeing{" "}
+            <strong>the current 28-day view versus the previous 28 days</strong>. That makes the
+            interface answer not only “what is the metric?” but also “is it improving?” and
+            “what does that movement mean?”
           </p>
         </Section>
 
-        <Section title="Why I stripped the charts out">
+        <Section title="Why charts are out">
           <p>
             The early versions looked more like what people expect from analytics products:
             multiple modules, chart blocks, cards, and sections. They worked technically, but
-            they were forgettable. Once I removed the charts, the product got sharper.
+            they were forgettable. Once the charts came out, the product got sharper.
           </p>
           <p>
-            Founders do not need a prettier way to hesitate. They need a clearer way to decide.
-            At the top level, a lot of founders do the same mental loop every time they open
-            analytics: see the number, compare it mentally, decide whether it matters, guess what
-            might be driving it, and then decide what to inspect next.
+            <strong>Founders do not need a prettier way to hesitate.</strong> They need a
+            clearer way to decide. At the top level, a lot of founders do the same mental loop
+            every time they open analytics: see the number, compare it mentally, decide whether
+            it matters, guess what might be driving it, and then decide what to inspect next.
           </p>
           <p>
-            Catapulse compresses that loop. The product is not “here are your metrics.” It is:
-            here are your metrics, here is how they moved, and here is the first interpretation.
+            <strong>Catapulse compresses that loop.</strong> The product is not “here are your
+            metrics.” It is: <strong>here are your metrics, here is how they moved, and here is
+            the first interpretation.</strong>
           </p>
         </Section>
 
@@ -228,9 +235,9 @@ export default function LaunchPage() {
           </p>
           <p>
             During testing, the 28-day view surfaced a pattern that feels very realistic for a
-            subscription app: revenue was roughly flat, new customers were down much more
-            sharply, conversion to paying was up, churn had worsened, and refund rate had also
-            worsened.
+            subscription app: <strong>revenue was roughly flat, new customers were down much
+            more sharply, conversion to paying was up, churn had worsened, and refund rate had
+            also worsened</strong>.
           </p>
           <p>
             That is a meaningful founder read. It suggests a business that is not collapsing, but
@@ -249,18 +256,21 @@ export default function LaunchPage() {
           </p>
           <p>
             Catapulse is built around those questions. It is not trying to replace a full
-            analytics stack. It is trying to become the fastest high-signal read inside that
-            stack. Not everything needs to be a platform. Sometimes the best tool is a strong
-            lens.
+            analytics stack. It is trying to become{" "}
+            <strong>the fastest high-signal read</strong> inside that stack. Not everything
+            needs to be a platform. Sometimes the best tool is a strong lens.
           </p>
         </Section>
 
         <Section title="What makes Catapulse different from a normal dashboard">
           <p>
             There are plenty of products that can show you metrics. What makes Catapulse
-            different is the combination of one-table clarity, real period comparison,
-            interpretation instead of passive display, live project switching, and a deliberate
-            founder-first prioritization of the signals that matter most.
+            different is the combination of{" "}
+            <strong>
+              one-table clarity, real period comparison, interpretation instead of passive
+              display, live project switching, and a deliberate founder-first prioritization
+            </strong>{" "}
+            of the signals that matter most.
           </p>
           <p>
             A lot of internal tools get worse as they get more comprehensive. Catapulse is trying
@@ -270,10 +280,10 @@ export default function LaunchPage() {
 
         <Section title="Why this is a compelling use case for RevenueCat’s Charts API">
           <p>
-            What excites me most about Catapulse is not only the tool itself. It is what the tool
-            suggests about RevenueCat’s Charts API. The obvious use case for a charts API is to
-            build charts. The more interesting use case is to build products that think in
-            metrics, not in chart components.
+            What makes Catapulse especially interesting is not only the tool itself. It is what
+            the tool suggests about RevenueCat’s Charts API. The obvious use case for a charts
+            API is to build charts. The more interesting use case is to{" "}
+            <strong>build products that think in metrics, not in chart components</strong>.
           </p>
           <p>
             Catapulse exists because the API already gives enough structure and signal to support
@@ -284,27 +294,28 @@ export default function LaunchPage() {
           <p>
             That matters because adoption is rarely driven by endpoints alone. It is driven by
             seeing what kinds of products suddenly become possible. If Catapulse makes another
-            builder think, “I could build a Slack weekly brief or a founder review assistant on
-            top of this,” then it is doing more than demonstrating implementation. It is
-            demonstrating a category.
+            builder think, “this could power a Slack weekly brief or a founder review assistant,”
+            then it is doing more than demonstrating implementation.{" "}
+            <strong>It is demonstrating a category.</strong>
           </p>
         </Section>
 
         <Section title="How Catapulse works">
           <p>
             Catapulse is built as a Next.js app with a deliberately thin client and a more
-            opinionated server-side data layer. That architectural choice matters for two reasons.
-            First, RevenueCat keys stay on the server. Second, the messier logic — project
-            resolution, live chart fetching, retries, period aggregation, and row interpretation
-            — lives in one place instead of being spread across the UI.
+            opinionated server-side data layer. That architectural choice matters for two
+            reasons. <strong>First, RevenueCat keys stay on the server.</strong>{" "}
+            Second, the messier logic — project resolution, live chart fetching, retries,
+            period aggregation, and row interpretation — lives in one place instead of being
+            spread across the UI.
           </p>
 
           <ArchitectureDiagram />
 
           <p>
-            The browser only needs one payload: a normalized founder brief. That lets the
-            frontend stay simple while the server does the heavier work of turning raw chart
-            output into a sharper operating read.
+            <strong>The browser only needs one payload: a normalized founder brief.</strong>{" "}
+            That lets the frontend stay simple while the server does the heavier work of turning
+            raw chart output into a sharper operating read.
           </p>
 
           <p>
@@ -326,9 +337,9 @@ export default function LaunchPage() {
             From there, Catapulse does the more important product work: it decides how each
             metric should behave in a founder brief. Some values are averaged across the selected
             window, like active subscriptions, customers active, MRR, and ARR. Others are summed
-            across the window, like revenue, transactions, new customers, and trial starts. Rate
-            metrics such as conversion, churn, and refund rate are treated as rates rather than
-            totals.
+            across the window, like revenue, transactions, new customers, and trial starts.{" "}
+            <strong>Rate metrics such as conversion, churn, and refund rate are treated as rates
+            rather than totals.</strong>
           </p>
 
           <p>
@@ -339,18 +350,23 @@ export default function LaunchPage() {
 
           <p>
             That row tells the story much faster than a dashboard that forces the founder to
-            inspect multiple visual modules and synthesize the answer manually. That is the part I
-            find most interesting technically: the Charts API is doing more than feeding a
-            dashboard. It is acting as the substrate for a product that feels closer to a weekly
-            operator memo than an analytics surface.
+            inspect multiple visual modules and synthesize the answer manually. The most
+            interesting technical shift is that the Charts API is doing more than feeding a
+            dashboard. It is{" "}
+            <strong>
+              acting as the substrate for a product that feels closer to a weekly operator memo
+              than an analytics surface
+            </strong>.
           </p>
         </Section>
 
         <Section title="Using Catapulse is deliberately simple">
           <p>
             Open the app and you immediately see the project ID, the project name, the date
-            coverage, and the founder brief table. Then you do one thing: switch between
-            <code> 7d</code>, <code>28d</code>, and <code>90d</code>.
+            coverage, and the founder brief table. Then you do one thing:{" "}
+            <strong>
+              switch between <code>7d</code>, <code>28d</code>, and <code>90d</code>
+            </strong>.
           </p>
           <p>
             That is enough to understand whether the business is experiencing short-term

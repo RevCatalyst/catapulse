@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.39.0",
     "@radix-ui/react-slot": "latest",
     "@radix-ui/react-tabs": "latest",
     "class-variance-authority": "latest",
