@@ -167,7 +167,7 @@ export function CatapulseDashboard({ dashboard }: { dashboard: DashboardPayload 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-none flex-col gap-8 px-4 py-12 sm:px-6 lg:px-8">
       <section className="flex flex-col items-center gap-3 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#cfcfd8] sm:text-5xl">
           Catapulse — RevenueCat Founder Brief
         </h1>
 

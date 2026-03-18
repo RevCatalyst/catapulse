@@ -120,7 +120,7 @@ export default function LaunchPage() {
           Launch post
         </p>
         <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          I built Catapulse because subscription founders do not need another dashboard
+          I built Catapulse because founders do not need another dashboard
         </h1>
         <p className="mx-auto max-w-3xl text-lg leading-8 text-foreground">
           Catapulse is a founder-facing brief built on top of RevenueCat’s Charts API.
@@ -133,12 +133,6 @@ export default function LaunchPage() {
             className="rounded-none border border-dashed border-primary/80 px-5 py-3 text-sm font-medium text-[#d6d6de] transition hover:text-white"
           >
             Try Catapulse live
-          </Link>
-          <Link
-            href="https://github.com/RevCatalyst/catapulse"
-            className="rounded-none border border-dashed border-primary/80 px-5 py-3 text-sm font-medium text-[#d6d6de] transition hover:text-white"
-          >
-            View the repo
           </Link>
         </div>
       </header>
@@ -370,35 +364,6 @@ export default function LaunchPage() {
         </Section>
       </article>
 
-      <section className="space-y-5 border border-dashed border-primary/70 p-6 text-center">
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-          Try Catapulse
-        </h2>
-        <p className="mx-auto max-w-3xl text-base leading-8 text-foreground">
-          If you are building on RevenueCat’s Charts API, my strongest recommendation is this:
-          do not start by asking how to make another dashboard. Start by asking what is the
-          smallest, sharpest product you can build for one real subscription workflow.
-        </p>
-        <p className="mx-auto max-w-3xl text-base leading-8 text-foreground">
-          Catapulse is my answer to that question for founders. And if you are the kind of
-          founder who opens analytics before a weekly review and wishes the product would just
-          tell you what matters, that is exactly what this tool is for.
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <Link
-            href="https://catapulse.vercel.app"
-            className="rounded-none border border-dashed border-primary/80 px-5 py-3 text-sm font-medium text-[#d6d6de] transition hover:text-white"
-          >
-            Open the live app
-          </Link>
-          <Link
-            href="https://github.com/RevCatalyst/catapulse"
-            className="rounded-none border border-dashed border-primary/80 px-5 py-3 text-sm font-medium text-[#d6d6de] transition hover:text-white"
-          >
-            Read the code
-          </Link>
-        </div>
-      </section>
     </main>
   );
 }
